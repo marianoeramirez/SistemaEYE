@@ -10,5 +10,5 @@ SistemaEYE
 <li>Facturación</li>
 <li>Historial Medico, como para oftalmologo, pero es sumamente basico.</li>
 </ul>
-
+http://sosinformatico.blogspot.com
 
