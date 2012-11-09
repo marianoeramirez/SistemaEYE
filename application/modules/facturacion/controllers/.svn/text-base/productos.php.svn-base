@@ -1,0 +1,100 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Productos extends MX_Controller {
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->model('productos_model');
+	}
+	function index()
+	{
+		$categorias=$this->productos_model->categorias();
+		$lineas=$this->productos_model->lineas();
+		array_unshift($lineas,'');
+		array_unshift($categorias,'');
+		$this->load->view('header_view');
+		$this->load->view('productos_view',array('categorias'=>$categorias,'lineas'=>$lineas));
+		$this->load->view('footer_view');
+	}
+	function excel()
+	{
+		$this->load->library('xlsStream');
+		
+		$post=array(
+				//'limit'=>$this->input->get('rows'),
+				//'page'=>$this->input->get('page'),
+				'orderby'=>$this->input->get('sidx'),
+				'orden'=>$this->input->get('sord'),
+				'select'=>' producto.codigo, producto.nombre, producto_categoria.categoria, producto_linea.linea, producto.regulado, producto.iva, producto.generico, producto.status'
+		);
+		
+		if($this->input->get('_search'))
+		{
+			$search['like']=array('nombre'=>$this->input->get('nombre'));
+			$search['where']=elements(array('codigo','id_linea','id_categoria','regulado','iva','generico','status'),$this->input->get());
+		}else $search='';
+		
+		$arraydata=$this->productos_model->listar($search,$post);
+		$this->xlsstream->create_excel("productos.xls",$arraydata);
+	}
+	function ajax()
+	{
+		switch($this->input->post('oper'))
+		{
+			case 'add':
+			if($this->users->have_pass('productos','agregar'))
+			{
+				$insert=elements(array('codigo','nombre','regulado','iva','generico','status'),$_POST);
+				$insert['id_categoria'] = $this->input->post('categoria');
+				$insert['id_linea'] = $this->input->post('linea');
+				$this->productos_model->insertar($insert);
+			}
+			break;
+			case 'edit':
+			if($this->users->have_pass('productos','modificar'))
+			{
+				if($this->input->post('id'))
+				{
+					$mod=elements(array('codigo','nombre','regulado','iva','generico','status'),$_POST);
+					$mod['id_categoria'] = $this->input->post('categoria');
+					$mod['id_linea'] = $this->input->post('linea');
+					$this->productos_model->modificar($this->input->post('id'),$mod);
+				}
+			}
+			break;
+			default:
+			$post=array(
+				'limit'=>$this->input->post('rows'),
+				'page'=>$this->input->post('page'),
+				'orderby'=>$this->input->post('sidx'),
+				'orden'=>$this->input->post('sord'),
+				'select'=>'producto.id, producto.codigo, producto.nombre, producto_categoria.categoria, producto_linea.linea, producto.regulado, producto.iva, producto.generico, producto.status'
+			);
+			if($this->input->post('_search'))
+			{
+				$search['like']=array('nombre'=>$this->input->post('nombre'));
+				$search['where']=elements(array('codigo','id_linea','id_categoria','regulado','iva','generico','status'),$this->input->post());
+			}else $search='';
+			
+			$count=$this->productos_model->count($search);
+		
+			if( $count >0 && $post['limit'] > 0) {
+				$total_pages = ceil($count/$post['limit']);
+				if ($post['page'] > $total_pages) $post['page']=$total_pages;
+				$post['offset']=$post['limit']*$post['page'] - $post['limit'];
+			} else {
+				$total_pages = 0;
+				$post['page']=0;
+				$post['offset']=0;
+			}
+			
+			$json->rows=$this->productos_model->listar($search,$post);
+			$json->total=$total_pages;
+			$json->page=$post['page'];
+		
+			$json->records=$count;
+			echo json_encode($json);
+			break;
+		}
+	}
+}

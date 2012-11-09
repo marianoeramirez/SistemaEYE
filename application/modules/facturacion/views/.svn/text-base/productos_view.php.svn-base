@@ -1,0 +1,83 @@
+<script>
+$(document).ready(function(){
+$("#list").jqGrid({
+	url: '<?php echo site_url("productos/ajax"); ?>',
+	datatype: "json",
+	mtype: 'post',
+   	colNames:['id','Código', 'Producto','Categoria','Linea','Regulado','Iva','Generico','Status'],
+   	colModel:[
+   		{name:'id',index:'producto.id', hidden:true, width:60, sorttype:"int"},
+   		{name:'codigo',index:'codigo', width:50, sorttype:"int","searchrules":{integer:true, number:true}, align:'center',editable:true, editrules:{integer:true, required:true}},
+   		{name:'nombre',index:'nombre', width:350, editable:true, editrules:{required:true}},
+   		{name:'categoria',index:'id_categoria', width:200, "stype":"select","searchoptions":{"value":<?php echo json_encode($categorias); ?>}, editable:true,edittype:"select",editoptions:{value:<?php echo json_encode($categorias); ?>},editrules:{ required:true}},
+   		{name:'linea',index:'id_linea',  width:90, "stype":"select","searchoptions":{"value":<?php echo json_encode($lineas); ?>}, editable:true,edittype:"select" ,editoptions:{value:<?php echo json_encode($lineas); ?>},editrules:{ required:true}},
+  		{name:'regulado',index:'regulado', width:70, "stype":"select","searchoptions":{"value": ":;S:Si;N:No" },align:'center', editable:true,edittype:"checkbox",editoptions:{value:"S:N"}},
+  		{name:'iva',index:'iva', width:70,"stype":"select","searchoptions":{"value": ":;S:Si;N:No" }, align:'center', editable:true,edittype:"checkbox",editoptions:{value:"S:N"}},
+  		{name:'generico',index:'generico', "stype":"select","searchoptions":{"value": ":;S:Si;N:No" }, width:70, align:'center', editable:true,edittype:"checkbox",editoptions:{value:"S:N"}},
+  		{name:'status',index:'status', "stype":"select","searchoptions":{"value": ":;A:Activo;I:Inactivo" }, width:70, align:'center', editable:true,edittype:"checkbox",editoptions:{value:"A:I"}}
+   	],
+   	editurl: '<?php echo site_url("productos/ajax"); ?>',
+   	multiselect: false,
+   	caption: "Productos",
+   	jsonReader: {
+		repeatitems : false,
+		id: "0"
+	},
+   	pager: '#pager',
+   	sortname: 'nombre',
+   	height: "<?php echo $this->config->item('jqgrid_height'); ?>",
+   	altRows: <?php echo json_encode($this->config->item('jqgrid_altrows')); ?>,
+   	viewrecords: <?php echo json_encode($this->config->item('jqgrid_viewrecords')); ?>,
+   	rowNum:<?php echo $this->config->item('jqgrid_rownum'); ?>,
+   	autowidth:<?php echo json_encode($this->config->item('jqgrid_autowidth')); ?>,
+   	rowList:<?php echo json_encode($this->config->item('jqgrid_rowlist')); ?>
+}).jqGrid("navGrid", "#pager",{edit:<?php if($this->users->have_pass('productos','modificar')) echo 'true'; else echo 'false'; ?>,add:<?php if($this->users->have_pass('productos','agregar')) echo 'true'; else echo 'false'; ?>,del:false,view:true,search:false,excel:true,addtitle:'Agregar Producto'}, {resize:false, editCaption:'Modificar Producto'}, {resize:false,addCaption:'Agregar Producto'}, {},{}, {resize:false,caption:'Consultar Producto'})
+.jqGrid("navButtonAdd","#pager",{caption:"",title:"Exportar a excel",
+	onClickButton:function(e){
+		try{
+			$("#list").jqGrid('excelExport',{tag:'excel',url:"<?php echo site_url("productos/excel"); ?>"});
+		} catch (e) {
+		    window.location= "<?php echo site_url("productos/excel"); ?>";
+		}
+
+	}
+}).jqGrid("filterToolbar");
+$('#btncon').click(function(){
+	var gr = $("#list").jqGrid('getGridParam','selrow');
+	if( gr != null ) $("#list").jqGrid('viewGridRow',gr,{height:280,resize:false, caption:'Consultar Producto'});
+	else alert("Por favor seleccina una fila");
+}).button({icons: {primary: "ui-icon-document"}});
+$('#btexcel').click(function(){
+	try{
+		$("#list").jqGrid('excelExport',{tag:'excel',url:"<?php echo site_url("productos/excel"); ?>"});
+	} catch (e) {
+		window.location= "<?php echo site_url("productos/excel"); ?>";
+	}
+}).button({icons: {primary: "ui-icon-newwin"}});
+<?php if($this->users->have_pass('productos','agregar')): ?>
+$('#btnadd').click(function(){
+	$("#list").jqGrid('editGridRow',"new",{height:280,reloadAfterSubmit:true,resize:false,addCaption:'Agregar Producto'});
+}).button({icons: {primary: "ui-icon-plus"}});
+<?php endif; ?>
+<?php if($this->users->have_pass('productos','modificar')): ?>
+$("#btnmod").click(function(){
+	var gr = $("#list").jqGrid('getGridParam','selrow');
+	if( gr != null ) $("#list").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:false,resize:false, editCaption:'Modificar Producto'});
+	else alert("Por favor selecciona una fila.");
+}).button({icons: {primary: "ui-icon-pencil"}});
+<?php endif; ?>
+});
+</script>
+<span id='menu_bar'> 
+<button id='btncon'>Consultar</button>
+<button id='btexcel'>Exportar a excel</button>
+<?php if($this->users->have_pass('productos','agregar')): ?>
+<button id='btnadd'>Agregar</button> 
+<?php endif; ?>
+<?php if($this->users->have_pass('productos','modificar')): ?>
+<button id='btnmod'>Modificar</button> 
+<?php endif; ?>
+</span> 
+<table id='list'>
+</table> 
+<div id='pager'></div>
