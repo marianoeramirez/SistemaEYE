@@ -16,7 +16,7 @@ class Facturacion extends MX_Controller {
 		$this->load->view('facturacion_view',array('status'=>$status));
 		$this->load->view('footer_view');
 	}
-	function con($id='')
+	function com($id='')
 	{
 		if(!empty($id))
 		{
@@ -47,7 +47,7 @@ class Facturacion extends MX_Controller {
 	{
 		$this->load->library('form_validation');
 
-		$this->form_validation->set_rules('id_cliente', 'Cliente', 'required|min_length[3]|callback_empresa_check');
+		$this->form_validation->set_rules('id_cliente', 'Cliente', 'required|min_length[1]|callback_empresa_check');
 		$this->form_validation->set_rules('id[]', 'Productos', 'required');
 		$this->form_validation->set_rules('id_status', 'Forma de pago', 'required');
 		$this->form_validation->set_error_delimiters("<br /><div class='ui-state-error ui-corner-all error'><p><span class='ui-icon ui-icon-alert icon_msj'></span><span class='ui-icon ui-icon-circle-close cerrar_msj'></span><strong>Alerta:</strong> ","</p></div>");
@@ -81,7 +81,7 @@ class Facturacion extends MX_Controller {
 			{
 				$this->load->library('form_validation');
 
-				$this->form_validation->set_rules('id_cliente', 'Cliente', 'required|min_length[3]|callback_empresa_check');
+				$this->form_validation->set_rules('id_cliente', 'Cliente', 'required|min_length[1]|callback_empresa_check');
 				$this->form_validation->set_rules('id[]', 'Productos', 'required');
 				$this->form_validation->set_rules('id_status', 'Forma de pago', 'required');
 				$this->form_validation->set_error_delimiters("<br /><div class='ui-state-error ui-corner-all error'><p><span class='ui-icon ui-icon-alert icon_msj'></span><span class='ui-icon ui-icon-circle-close cerrar_msj'></span><strong>Alerta:</strong> ","</p></div>");
@@ -124,6 +124,7 @@ class Facturacion extends MX_Controller {
 		if(!empty($id))
 		{
 			$this->facturacion_model->borrar($id);
+			redirect('facturacion');
 		}
 	}
 	function ajax()
@@ -155,6 +156,8 @@ class Facturacion extends MX_Controller {
 			{
 				$search['like']=elements(array('fecha'),$this->input->post());
 				$search['where']=elements(array('id_cliente','id','id_status'),$this->input->post());
+				$search['where']['pedido.id'] = $search['where']['id'];
+				 $search['where']['id'] = false;
 				//var_dump($this->input->post());
 			}else $search='';
 			
@@ -189,17 +192,13 @@ class Facturacion extends MX_Controller {
 			$this->db->select("cedula, CONCAT_WS(' ', cedula , nombres , apellidos ) as value");
 			$this->db->from('usuario');
 			$this->db->like('cedula',$q);
-			$this->db->where('id_tipo', 1);
+			//$this->db->where('id_tipo', 1);
 			$query=$this->db->get();
 			if ($query->num_rows() > 0)
 			{
-				foreach ($query->result_array() as $row)
-				{
-				}
-					$result[]=$row;
+				echo json_encode($query->result_array());
+
 			}
 		}
-		echo json_encode($result);
-	
 	}
 }

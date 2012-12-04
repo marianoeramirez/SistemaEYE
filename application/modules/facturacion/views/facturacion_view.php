@@ -7,9 +7,9 @@ $("#list").jqGrid({
 	url: '<?php echo site_url("facturacion/ajax"); ?>',
 	datatype: "json",
 	mtype: 'post',
-   	colNames:['ID de pedido','Fecha', 'Cliente','Total','Status'],
+   	colNames:['ID de factura','Fecha', 'Cliente','Total','Status'],
    	colModel:[
-   		{name:'id',index:'cedula', width:50,"searchrules":{integer:true, number:true}, align:'center',editable:false},
+   		{name:'id',index:'id', width:50,"searchrules":{integer:true, number:true}, align:'center',editable:false},
    		{name:'fecha',index:'fecha', width:80, editable:true, editrules:{required:true}},
    		{name:'id_cliente',index:'id_cliente', width:80, "searchrules":{integer:true, number:true}, editable:true, editrules:{required:true}},
    		{name:'total',index:'total', width:80, search:false, editable:true, editrules:{required:true, edithidden:true}, hidden:false},
@@ -17,7 +17,7 @@ $("#list").jqGrid({
    	],
    	editurl: '<?php echo site_url("facturacion/ajax"); ?>',
    	multiselect: false,
-   	caption: "Usuarios",
+   	caption: "Factura",
    	jsonReader: {
 		repeatitems : false,
 		id: "0"
@@ -34,7 +34,7 @@ $("#list").jqGrid({
 .jqGrid("filterToolbar");
 $('#btncon').click(function(){
 	var gr = $("#list").jqGrid('getGridParam','selrow');
-	if( gr != null ) window.location.href=URL_S+'facturacion/con/'+gr;
+	if( gr != null ) window.location.href=URL_S+'facturacion/com/'+gr;
 	else alert("Por favor seleccina una fila");
 }).button({icons: {primary: "ui-icon-document"}});
 $('#btnadd').click(function(){
@@ -43,6 +43,11 @@ $('#btnadd').click(function(){
 $("#btnmod").click(function(){
 	var gr = $("#list").jqGrid('getGridParam','selrow');
 	if( gr != null ) window.location.href=URL_S+'facturacion/mod/'+gr;
+	else alert("Por favor selecciona una fila.");
+}).button({icons: {primary: "ui-icon-pencil"}});
+$("#btndel").click(function(){
+	var gr = $("#list").jqGrid('getGridParam','selrow');
+	if( gr != null ) window.location.href=URL_S+'facturacion/del/'+gr;
 	else alert("Por favor selecciona una fila.");
 }).button({icons: {primary: "ui-icon-pencil"}});
 });
@@ -54,6 +59,7 @@ $("#btnmod").click(function(){
 <button id='btncon'>Consultar</button>
 <button id='btnadd'>Agregar</button> 
 <button id='btnmod'>Modificar</button> 
+<button id='btndel'>Eliminar</button> 
 </span> 
 <table id='list'>
 </table> 

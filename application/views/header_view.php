@@ -40,7 +40,7 @@
 			<div id="bar" class='portlet-header ui-widget-header ui-corner-all' data-role="navbar">
 				<ul id="menu">
 					<li><a href="<?php echo site_url('index'); ?>">Home</a></li>
-					<li><a href="<?php echo site_url('contactenos'); ?>">Contactenos</a></li>
+					<li><a href="<?php echo site_url('contactenos'); ?>">Contáctenos</a></li>
 					<?php foreach($this->users->menu_top() as $value): ?>
 					<li><a href="<?php echo site_url($value['url']); ?>"><?php echo $value['titulo']; ?></a></li>
 					<?php endforeach; ?>

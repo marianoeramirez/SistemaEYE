@@ -32,20 +32,10 @@ class Inicio extends MX_Controller {
 			'mensaje' => $this->input->post('mensaje')
 			);
 			$array['mensaje']=json_encode($mensaje);
-			if($this->users->auth())
-			{
-				$array['de']=$this->users->cod();
-			}
-			else
-			{
-				$array['de']=0;
-			}
 			$array['asunto']="Mensaje desde la pagina";
-			$array['para']=$contenido['cod_user'];
 			$this->db->set("fecha","now()",false);
 			$this->db->insert('mensajes', $array);
-			$contenido['titulo']='Mensaje enviado con exito';
-			$contenido['contenido']= jquery_nice('Mensaje Enviado con exito');	
+			$this->load->view('contactenos_view',array('mensaje'=>'Mensaje Enviado'));
 		}
 		$this->load->view('footer_view');
 	

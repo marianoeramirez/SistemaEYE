@@ -33,9 +33,9 @@ input, textarea {border:1px solid #ccc; padding:5px; -moz-border-radius: 5px; -w
 .portlet-header h3, .portlet-header h4 { margin: 5px 0px;}
 .portlet-content { padding: 0.4em; }
 #barra_total{width:950px;text-align:left;}
-#barra_izq{width:280px; float:left;}
+#barra_izq{width:230px; float:left;}
 #barra_izq .portlet{margin-bottom:30px;}
-#barra_centro{width:670px; float:right;}
+#barra_centro{width:715px; float:right;}
 #barra_centro .portlet{margin-bottom:30px;}
 /* Galeria */
 #frame { position:absolute; z-index:0; width:739px; height:341px; top:-3px; left:-80px; background:url(img/example-frame.png); }  
@@ -80,7 +80,7 @@ height:4px;
 position:relative; 
 cursor:pointer;
 border:1px solid #333;
-width:675px;
+width:200px;
 float:left; 
 clear:right;
 margin-top:10px;

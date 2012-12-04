@@ -6,8 +6,8 @@
 			<?php if($this->users->get_tipo() == 1): ?>
 			<a href="<?php echo site_url('productos'); ?>" class="full button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">Productos</span></a>
 			<a href="<?php echo site_url('clientes'); ?>" class="full button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">Clientes</span></a>
-			<a href="<?php echo site_url('facturacion'); ?>" class="full button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">Facturacion</span></a>
-			<a href="<?php echo site_url('historial'); ?>" class="full button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">Historial Medico</span></a>
+			<a href="<?php echo site_url('facturacion'); ?>" class="full button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">Factura</span></a>
+			<a href="<?php echo site_url('historial'); ?>" class="full button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">Historial Médico</span></a>
 			<?php endif; ?>
 			<a href="<?php echo site_url('user/logout'); ?>" class="full button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">Desconectarse</span></a>
 		</div>
@@ -20,7 +20,7 @@
 	<div class='portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'>
 		<div class='portlet-header ui-widget-header ui-corner-all'><h4>Ubicación</h4></div>
 		<div class='portlet-content'>
-			<img alt='empressa de prueba' src='http://maps.google.com/maps/api/staticmap?zoom=13&size=265x300&sensor=false&markers=color:red|10.546569,-66.874146'/>
+			<img alt='empressa de prueba' src='http://maps.google.com/maps/api/staticmap?zoom=13&size=220x300&sensor=false&markers=color:red|10.546569,-66.874146'/>
 		</div>
 	</div>
 </div>

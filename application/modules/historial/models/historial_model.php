@@ -30,7 +30,7 @@ class Historial_Model extends CI_Model {
 		$query=$this->db->get();
 		if ($query->num_rows() > 1)
 		{
-			var_dump($query->result_array());
+			//var_dump($query->result_array());
 			return $query->result_array();
 		}
 		elseif($query->num_rows() == 1)

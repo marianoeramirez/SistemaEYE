@@ -3,6 +3,9 @@
 #ubicacion{text-align:center;}
 <?php endif; ?>
 </style>
+<?php if(isset($mensaje)): ?>
+<script>alert('<?php echo $mensaje ?>');</script>
+<?php endif; ?>
 <div id='barra_total'>
 	<div class='portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'>
 		<div class='portlet-header ui-widget-header ui-corner-all'><h3>Contactenos.</h2></div>

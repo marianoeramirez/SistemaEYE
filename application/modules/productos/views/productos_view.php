@@ -11,10 +11,10 @@ $("#list").jqGrid({
    	colModel:[
    		{name:'id',index:'producto.id', hidden:true, width:60, sorttype:"int"},
    		{name:'codigo',index:'codigo', width:50,"searchrules":{integer:true, number:true}, align:'center',editable:true, editrules:{ required:true}},
-   		{name:'nombre',index:'nombre', width:350, editable:true, editrules:{required:true}},
+   		{name:'nombre',index:'nombre', width:200, editable:true, editrules:{required:true}},
    		{name:'precio',index:'precio', width:80, editable:true, editrules:{required:true}},
    		{name:'marca',index:'id_marca', width:80, "stype":"select","searchoptions":{"value":<?php echo json_encode($marca); ?>}, editable:true,edittype:"select",editoptions:{value:<?php echo json_encode($marca); ?>},editrules:{ required:true}},
-   		{name:'modelo',index:'id_linea',  width:90, "stype":"select","searchoptions":{"value":<?php echo json_encode($modelo); ?>}, editable:true,edittype:"select" ,editoptions:{value:<?php echo json_encode($modelo); ?>},editrules:{ required:true}},
+   		{name:'modelo',index:'id_modelo',  width:90, "stype":"select","searchoptions":{"value":<?php echo json_encode($modelo); ?>}, editable:true,edittype:"select" ,editoptions:{value:<?php echo json_encode($modelo); ?>},editrules:{ required:true}},
    		{name:'tipo',index:'id_tipo',  width:90, "stype":"select","searchoptions":{"value":<?php echo json_encode($tipo); ?>}, editable:true,edittype:"select" ,editoptions:{value:<?php echo json_encode($tipo); ?>},editrules:{ required:true}},
    		{name:'genero',index:'id_genero',  width:70, "stype":"select","searchoptions":{"value":<?php echo json_encode($genero); ?>}, editable:true,edittype:"select" ,editoptions:{value:<?php echo json_encode($genero); ?>},editrules:{ required:true}},
    		{name:'color',index:'color',editable:true, editrules:{edithidden:true}, hidden:true},

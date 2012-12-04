@@ -14,7 +14,7 @@ class MY_Router extends MX_Router {
     {
 		//echo count($segments)."i";
         // Comprueba que el controlador no existe
-       	//var_dump($segments);
+       	
        	//var_dump(file_exists(APPPATH."modules/$segments[0]/controllers/"));
 		if(count($segments)>=1)
 		{

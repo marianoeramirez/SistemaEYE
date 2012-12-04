@@ -19,16 +19,14 @@ class Historial extends MX_Controller {
 		switch($this->input->post('oper'))
 		{
 			case 'add':
-				$insert=elements(array('cedula','nombres','apellidos'),$_POST);
-				$insert['id_tipo'] = $this->input->post('tipo');
+				$insert=elements(array('id_cliente','astigmatismo_od','astigmatismo_oi','hipermetropia_od','hipermetropia_oi','presbicia_od','presbicia_oi','miopia_od','miopia_oi','info'),$_POST);
 				$this->historial_model->insertar($insert);
 			break;
 			case 'edit':
 				if($this->input->post('id'))
 				{
-					$mod=elements(array('cedula','nombres','apellidos','sexo'),$_POST);
-					$mod['id_tipo'] = $this->input->post('tipo');
-					$this->historial_model->modificar($this->input->post('cedula'),$mod);
+					$mod=elements(array('id_cliente','astigmatismo_od','astigmatismo_oi','hipermetropia_od','hipermetropia_oi','presbicia_od','presbicia_oi','miopia_od','miopia_oi','info'),$_POST);
+					$this->historial_model->modificar($this->input->post('id'),$mod);
 				}
 			break;
 			default:
@@ -66,6 +64,24 @@ class Historial extends MX_Controller {
 			echo json_encode($json);
 			//echo $this->db->last_query();
 			break;
+		}
+	}
+	function clientes()
+	{
+		$q = strtolower($this->input->post("term"));
+		$result='';
+		if(!empty($q))
+		{
+			$this->db->select("cedula, CONCAT_WS(' ', cedula , nombres , apellidos ) as value");
+			$this->db->from('usuario');
+			$this->db->like('cedula',$q);
+			//$this->db->where('id_tipo', 1);
+			$query=$this->db->get();
+			if ($query->num_rows() > 0)
+			{
+				echo json_encode($query->result_array());
+
+			}
 		}
 	}
 }
